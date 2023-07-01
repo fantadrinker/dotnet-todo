@@ -1,0 +1,20 @@
+@page "/todo"
+
+<ul>
+  @foreach (var todo in todos)
+  {
+    <li>@todo</li>
+  }
+</ul>
+
+
+@code {
+  private List<string> todos = new List<string>();
+
+  protected override void OnInitialized()
+  {
+    todos.Add("Learn Blazor");
+    todos.Add("Build awesome apps");
+    todos.Add("Profit");
+  }
+}
