@@ -1,0 +1,13 @@
+## Building
+
+To run locally 
+
+    dotnet watch
+
+To run via docker, first build the image
+
+    docker build -t <image-name> .
+
+Then run image on the port you wish to expose
+
+    docker run -p <port>:80 <built-img-hash>
