@@ -1,20 +1,41 @@
 @page "/todo"
+@using BlazorApp.Data
+@inject TodoService todoService
+@inject ILogger<Todo> logger
 
-<ul>
-  @foreach (var todo in todos)
-  {
-    <li>@todo</li>
-  }
-</ul>
+<h1>My Todos</h1>
 
+<EditForm Model="@addTodoModel" OnSubmit="@HandleSubmit">
+  <InputText @bind-Value="@addTodoModel.Desc" />
+  <button type="submit">Add</button>
+</EditForm>
+
+@if (todoItems == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <ul>
+    @foreach (var todo in todoItems)
+    {
+      <li>@todo.Title</li>
+    }
+  </ul>
+}
 
 @code {
-  private List<string> todos = new List<string>();
 
-  protected override void OnInitialized()
+  private AddTodoModel addTodoModel = new();
+
+  private void HandleSubmit()
   {
-    todos.Add("Learn Blazor");
-    todos.Add("Build awesome apps");
-    todos.Add("Profit");
+    todoService.AddTodoItem(new TodoItem() { Title = addTodoModel.Desc });
+  }
+  private List<TodoItem>? todoItems;
+
+  protected override async Task OnInitializedAsync()
+  {
+    todoItems = await todoService.GetTodosAsync();
   }
 }

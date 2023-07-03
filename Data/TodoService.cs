@@ -18,5 +18,10 @@ public class TodoService
         NotifyStateChanged();
     }
 
+    public Task<List<TodoItem>> GetTodosAsync()
+    {
+        return Task.FromResult(Todos);
+    }
+
     private void NotifyStateChanged() => OnChange?.Invoke();
 }
